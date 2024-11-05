@@ -1,0 +1,44 @@
+// app.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const personnelData = [
+        { name: 'John Doe', position: 'Developer', department: 'Engineering', email: 'john.doe@example.com' },
+        { name: 'Jane Smith', position: 'Manager', department: 'HR', email: 'jane.smith@example.com' },
+        { name: 'Sam Johnson', position: 'Designer', department: 'Marketing', email: 'sam.johnson@example.com' }
+    ];
+
+    // Function to render the personnel data into the table
+    function renderTable(data) {
+        const tableBody = document.getElementById('personnelTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Clear existing table rows
+        data.forEach(person => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).textContent = person.name;
+            row.insertCell(1).textContent = person.position;
+            row.insertCell(2).textContent = person.department;
+            row.insertCell(3).textContent = person.email;
+        });
+    }
+
+    // Function to filter the personnel data based on the search input
+    function filterData(query) {
+        query = query.toLowerCase();
+        return personnelData.filter(person => {
+            return (
+                person.name.toLowerCase().includes(query) ||
+                person.position.toLowerCase().includes(query) ||
+                person.department.toLowerCase().includes(query)
+            );
+        });
+    }
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function(event) {
+        const filteredData = filterData(event.target.value);
+        renderTable(filteredData);
+    });
+
+    // Initial render
+    renderTable(personnelData);
+});
